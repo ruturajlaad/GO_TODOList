@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #007bff;
+            position: relative;
+            animation: fadeIn 1s ease forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tickmark {
+            width: 40px;
+            height: 40px;
+            fill: #28a745;
+            margin-left: 10px;
+            animation: pulseTick 2s ease infinite;
+        }
+        @keyframes pulseTick {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.9); }
+        }
+        .beaver {
+            width: 80px;
+            position: absolute;
+            z-index: 1;
+        }
+        .beaver-1 { top: 10px; left: -90px; animation: moveBeaver1 4s linear infinite; }
+        .beaver-2 { bottom: 10px; right: -90px; animation: moveBeaver2 5s linear infinite; }
+        .beaver-3 { top: 50%; left: -90px; animation: moveBeaver3 6s linear infinite; }
+        @keyframes moveBeaver1 {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes moveBeaver2 {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes moveBeaver3 {
+            0% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-10px) rotate(-10deg); }
+            100% { transform: translateY(0) rotate(0); }
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            color: #495057;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            animation: fadeIn 1s ease forwards;
+            position: relative;
+            z-index: 1;
+        }
+        .task-item {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .task-item:hover {
+            background-color: #e9ecef;
+        }
+        .task-name {
+            flex: 1;
+            font-size: 18px;
+            color: #495057;
+        }
+        .task-actions {
+            min-width: 100px;
+            text-align: right;
+        }
+        .task-actions a {
+            margin-left: 10px;
+            color: white; /* Adjusted to white */
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .task-actions a:hover {
+            color: #f8f9fa; /* Adjusted to light background color */
+            text-decoration: underline;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        .trademark {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List
+            <svg class="tickmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M9 16.17l-3.5-3.5c-.391-.39-1.023-.39-1.414 0s-.391 1.024 0 1.415l4.95 4.95c.391.39 1.022.39 1.413 0l9.95-9.95c.391-.391.391-1.024 0-1.415s-1.023-.39-1.414 0l-8.536 8.536z"/>
+            </svg>
+        </h1>
+        <form action="/add" method="POST">
+            <input type="text" name="task" placeholder="New Task" class="form-control mr-2">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+        <ul>
+            {{range .}}
+                <li class="task-item">
+                    <div class="task-name {{if .Done}}completed{{end}}">
+                        {{.Task}}
+                    </div>
+                    <div class="task-actions">
+                        {{if not .Done}}<a href="/done?id={{.ID}}" class="btn btn-success btn-sm">Done</a>{{end}}
+                        <a href="/delete?id={{.ID}}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </li>
+            {{end}}
+        </ul>
+        <img src="https://raw.githubusercontent.com/golang-samples/gopher-vector/master/gopher.png" alt="Golang Beaver" class="beaver beaver-1">
+        <img src="https://raw.githubusercontent.com/golang-samples/gopher-vector/master/gopher.png" alt="Golang Beaver" class="beaver beaver-2">
+        <img src="https://raw.githubusercontent.com/golang-samples/gopher-vector/master/gopher.png" alt="Golang Beaver" class="beaver beaver-3">
+        <div class="trademark">© Urjita Sawant</div>
+    </div>
+</body>
+</html>
