@@ -1,4 +1,3 @@
-Here's a well-formatted README for your GoLang To-Do List Web Application:
 
 ---
 
