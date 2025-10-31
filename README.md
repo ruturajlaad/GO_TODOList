@@ -2,8 +2,7 @@
 ---
 
 # GoLang To-Do List Web Application
-
-![GoLang To-Do List Web Application](https://github.com/user-attachments/assets/e55747e2-b4e0-4bcb-bbcf-90ed3188c4d8)
+<img width="1181" height="413" alt="image" src="https://github.com/user-attachments/assets/0641325f-bd12-4539-be0e-c03096fa32c1" />
 
 ## Overview
 
