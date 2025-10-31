@@ -27,7 +27,7 @@ To get this project up and running on your local machine, follow these steps:
 
 ### Clone the repository
 ```sh
-git clone https://github.com/your-username/go-todo-list.git
+git clone https://github.com/ruturajlaad/GO_TODOList.git
 cd go-todo-list
 ```
 
@@ -83,8 +83,6 @@ Special thanks to the GoLang community and all contributors who have helped in m
 
 ---
 
-© 2024 Urjita Sawant
+© 2025 Ruturaj Laad
 
 ---
-
-This README provides a clear and comprehensive overview of your project, including its features, installation steps, usage instructions, and more. It also includes sections for contributing and licensing, which are important for open-source projects.
